@@ -53,3 +53,12 @@ jq -c . ~/arxiv/a.json | jq -r '. | .versions[0].created | strptime("%a, %d %b %
 
 <data awk -v FS=-  '{ print "meta" "/" $1 "/" $2 "/" $3 }' | xargs touch
 
+time (
+jq -c . ~/arxiv/a.json | jq -r '. | [
+    (.versions[0].created | strptime("%a, %d %b %Y %H:%M:%S %Z") | strftime("%Y/%m/%d")), 
+    (del(.authors_parsed) | @json)
+] | join("\t") ' | awk -v FS="\t" '{ print $1; print $2 > "meta/" $1; } '
+)
+
+time (find meta -type file  | xargs cat | wc -l)
+
