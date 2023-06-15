@@ -1,0 +1,55 @@
+
+# generate meta.json take 2m16s
+# 
+time jq 'del(.abstract, .authors_parsed)' < a.json >meta.json
+
+# generate meta.csv
+
+jq -c . meta.json | head -n 5 | jq -r '. | [.id, .title, .authors, .submitter, .comment, .["journal-ref"], .doi, .["report-no"], .categories, .license, .update_date, (.versions | @text) ] | @csv'
+ 
+jq -c . meta.json  | jq -r '. | [.id, .title, .authors, .submitter, .comment, .["journal-ref"], .doi, .["report-no"], .categories, .license, .update_date, (.versions | @text) ] | @csv' >meta.csv
+
+
+jq -c . ~/arxiv/a.json | head -n 50 | jq -r '. | [
+    .id, 
+    (.title | @json), 
+    (.authors | @json), 
+    (.submitter | @json), 
+    (.comment | @json), 
+    .["journal-ref"], 
+    .doi, 
+    .["report-no"], 
+    .categories, 
+    .license?, 
+    .update_date?, 
+    (.versions? | @text),
+    (.abstract? | @json)
+] | join("\t") ' | awk -v FS="\t" 'NF>2{ 
+        for (i=1; i<=NF; i++) { print $i >($1 "-" $(NF-2) ".txt"); next;  } 
+}
+{ print $0; }  
+'
+
+# >($1 "-" $(NF-1) ".txt")
+
+# then using awk to seperate each the data into different files
+
+
+time (
+jq -c . ~/arxiv/a.json | jq -r '. | [
+    (.id | @text),
+    (.update_date | @text), 
+    (. | @json)
+] | join("\t") ' | awk -v FS="\t" '{ print $3 > $2 "-" $1 ".json"; } '
+)
+
+
+
+time (
+jq -c . ~/arxiv/a.json | jq -r '. | .versions[0].created | strptime("%a, %d %b %Y %H:%M:%S %Z") | strftime("%Y-%m-%d")' | awk '{ if (a[$1] == 1) next; print $1; a[$1] = 1;}' >data
+)
+
+<data awk -v FS=-  '{ print "meta" "/" $1 "/" $2 }' | xargs mkdir -p 
+
+<data awk -v FS=-  '{ print "meta" "/" $1 "/" $2 "/" $3 }' | xargs touch
+
