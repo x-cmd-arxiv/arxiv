@@ -4,7 +4,7 @@ xws all | while read -r i; do
     (
         x gh cl x-cmd-arxiv/$i repo/$i
         cd repo/$i
-        git push git@gitee.net/x-cmd-arxiv/$i main
+        git push git@gitee.net:x-cmd-arxiv/$i main
         # git push git@gitcode.net/x-cmd-arxiv/$i main
     )
 done
