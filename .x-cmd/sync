@@ -1,0 +1,12 @@
+(
+cd meta
+for i in *; do
+    (
+        x gh cl x-cmd-arxiv/$i repo/$i
+        cd repo/$i
+        git add .
+        git commit -m ...
+        git push origin main
+    )
+done
+)
