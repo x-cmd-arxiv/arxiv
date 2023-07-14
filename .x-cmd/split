@@ -16,7 +16,7 @@ for i in *; do
             return 1
         }
 
-        git push origin main || {
+        command git push origin main || {
             x:error "fail at push => $i"
             return 1
         }
