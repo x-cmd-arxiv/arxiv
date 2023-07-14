@@ -4,9 +4,7 @@ for i in *; do
     (
         x gh cl x-cmd-arxiv/$i repo/$i
         cd repo/$i
-        git add .
-        git commit -m ...
-        git push origin main
+        git push git@gitcode.net/x-cmd-arxiv/$i main
     )
 done
 )

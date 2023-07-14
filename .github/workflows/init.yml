@@ -1,4 +1,4 @@
-name: x-cmd-readme => x-cmd
+name: init
 on:
   workflow_dispatch:
 #   schedule:

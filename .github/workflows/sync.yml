@@ -1,0 +1,22 @@
+name: sync
+on:
+  workflow_dispatch:
+#   schedule:
+#   - cron: '15 5,23 * * *'
+#   push:
+
+jobs:
+  release-worker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      ssh_key: ${{ secrets.SSH_PRIVATE_KEY_FOR_ARXIV }}
+      git_user: l
+      git_email: l@x-cmd.com
+      CONCURRENCY: 10
+    steps:
+      - name: main
+        uses: x-cmd/action@main
+        with:
+          code: x ws split || true
