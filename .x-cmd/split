@@ -11,7 +11,7 @@ for i in *; do
         }
 
         cd repo/$i
-        git comit -m ... || {
+        git commit -m ... || {
             x:error "fail at commit => $i"
             return 1
         }
