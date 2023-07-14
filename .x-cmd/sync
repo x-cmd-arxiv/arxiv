@@ -1,6 +1,6 @@
 (
-cd meta
-for i in *; do
+
+xws all | while read -r i; do
     (
         x gh cl x-cmd-arxiv/$i repo/$i
         cd repo/$i
