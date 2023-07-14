@@ -11,6 +11,11 @@ for i in *; do
         }
 
         cd repo/$i
+        git add . || {
+            x:error "fail at add => $i"
+            return 1
+        }
+        
         git commit -m ... || {
             x:error "fail at commit => $i"
             return 1
