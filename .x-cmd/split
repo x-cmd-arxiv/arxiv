@@ -9,11 +9,13 @@ for i in *; do
             x:error "fail at cp => $i"
             return 1
         }
+
         cd repo/$i
         git comit -m ... || {
             x:error "fail at commit => $i"
             return 1
         }
+        
         git push origin main || {
             x:error "fail at push => $i"
             return 1
