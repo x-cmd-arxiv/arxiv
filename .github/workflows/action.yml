@@ -11,7 +11,7 @@ jobs:
     timeout-minutes: 15
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      ssh_key: ${{ secrets.SSH_PRIVATE_KEY_FOR_SYNC }}
+      ssh_key: ${{ secrets.SSH_PRIVATE_KEY_FOR_ARXIV }}
       git_user: l
       git_email: l@x-cmd.com
       CONCURRENCY: 10
