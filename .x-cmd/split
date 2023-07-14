@@ -5,7 +5,7 @@ mkdir repo
 for i in *; do 
     (
         x gh cl x-cmd-arxiv/$i repo/$i; 
-        command cp $i/* repo/$i/ || {
+        command cp -r $i/* repo/$i/ || {
             x:error "fail at cp => $i"
             return 1
         }
@@ -15,7 +15,7 @@ for i in *; do
             x:error "fail at commit => $i"
             return 1
         }
-        
+
         git push origin main || {
             x:error "fail at push => $i"
             return 1
