@@ -9,4 +9,5 @@ xws all | while read -r i; do
         git push git@gitcode.net:x-cmd-arxiv/$i main
     )
 done
+
 )
