@@ -33,9 +33,11 @@ xws all | while read -r i; do
         
         (
             cd csv/$i
-            find .
+            git add .
+            git commit -m ...
+            git push origin main
         )
-        # git push git@gitee.com:x-cmd-arxiv/$i main
+        # git push git@gitee.com:x-cmd-arxiv/c$i main
         # git push git@gitcode.net:x-cmd-arxiv/$i main
     )
 
