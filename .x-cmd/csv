@@ -14,25 +14,26 @@ ____x_cmd_arxiv_db_json2csv_pipe(){
     ] | @csv'
 }
 
-xws all | while read -r i; do
+xws all | while read -r year; do
     (
-        x gh cl x-cmd-arxiv/$i      repo/$i
-        x gh cl x-cmd-arxiv/c$i     csv/c$i
+        x gh cl x-cmd-arxiv/$year      repo/$year
+        x gh cl x-cmd-arxiv/c$year     csv/c$year
 
         (
 
-            cd repo/$i
-            for j in *; do
-                mkdir -p ../../csv/c$i
-                for k in $j/*; do
-                    x x-cmd-arxiv-db json2csv $k | ____x_cmd_arxiv_db_json2csv_pipe >> ../../csv/c$i/$k.csv
+            cd repo/$year
+            for month in *; do
+                mkdir -p ../../csv/c$year/$month
+                for md in $month/*; do
+                    echo x x-cmd-arxiv-db json2csv $md | ____x_cmd_arxiv_db_json2csv_pipe >> ../../csv/c$year/$md.csv
+                    x x-cmd-arxiv-db json2csv $md | ____x_cmd_arxiv_db_json2csv_pipe >> ../../csv/c$year/$md.csv
                 done
             done
 
         )
         
         (
-            cd csv/c$i
+            cd csv/c$year
             git add .
             git commit -m ...
             git push origin main
