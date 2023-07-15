@@ -1,0 +1,44 @@
+(
+mkdir repo
+mkdir csv
+
+____x_cmd_arxiv_db_json2csv_pipe(){
+    printf "%s," id submitter author title comment journal doi report category license abstract version
+    printf "%s\n" updated
+    x jq -r '[
+        .id, .submitter, .authors, .title,
+        .comments, .["journal-ref"], .doi, .["report-no"], .categories, .license,
+        .abstract,
+        (.versions | @text),
+        .["update_date"]
+    ] | @csv'
+}
+
+xws all | while read -r i; do
+    (
+        x gh cl x-cmd-arxiv/$i      repo/$i
+        x gh cl x-cmd-arxiv/c$i     csv/c$i
+
+        (
+
+            cd repo/$i
+            for i in *; do
+                mkdir -p ../../csv/c$i
+                for j in $i/*; do
+                    x x-cmd-arxiv-db json2csv $j | ____x_cmd_arxiv_db_json2csv_pipe >> ../../csv/c$i/$j.csv
+                done
+            done
+
+        )
+        
+        (
+            cd csv/$i
+            find .
+        )
+        # git push git@gitee.com:x-cmd-arxiv/$i main
+        # git push git@gitcode.net:x-cmd-arxiv/$i main
+    )
+
+    break
+done
+)
