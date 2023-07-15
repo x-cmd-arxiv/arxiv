@@ -3,6 +3,9 @@ mkdir repo
 mkdir csv
 
 ____x_cmd_arxiv_db_json2csv_pipe(){
+    local in="$1"
+    local out="$2"
+
     printf "%s," id submitter author title comment journal doi report category license abstract version
     printf "%s\n" updated
     x jq -r '[
@@ -11,7 +14,7 @@ ____x_cmd_arxiv_db_json2csv_pipe(){
         .abstract,
         (.versions | @text),
         .["update_date"]
-    ] | @csv'
+    ] | @csv' <"$in" >"$out"
 }
 
 xws all | while read -r year; do
@@ -23,10 +26,10 @@ xws all | while read -r year; do
 
             cd repo/$year
             for month in *; do
-                mkdir -p ../../csv/c$year/$month
-                for md in $month/*; do
+                mkdir -p "../../csv/c$year/$month"
+                for md in "$month"/*; do
                     # ____x_cmd_arxiv_db_json2csv_pipe >> ../../csv/c$year/$md.csv
-                    <$md ____x_cmd_arxiv_db_json2csv_pipe >> ../../csv/c$year/$md.csv
+                    ____x_cmd_arxiv_db_json2csv_pipe "$md" "../../csv/c$year/$md.csv"
                 done
             done
 
