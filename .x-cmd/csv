@@ -25,8 +25,8 @@ xws all | while read -r year; do
             for month in *; do
                 mkdir -p ../../csv/c$year/$month
                 for md in $month/*; do
-                    echo x x-cmd-arxiv-db json2csv $md | ____x_cmd_arxiv_db_json2csv_pipe >> ../../csv/c$year/$md.csv
-                    x x-cmd-arxiv-db json2csv $md | ____x_cmd_arxiv_db_json2csv_pipe >> ../../csv/c$year/$md.csv
+                    # ____x_cmd_arxiv_db_json2csv_pipe >> ../../csv/c$year/$md.csv
+                    <$md ____x_cmd_arxiv_db_json2csv_pipe >> ../../csv/c$year/$md.csv
                 done
             done
 
