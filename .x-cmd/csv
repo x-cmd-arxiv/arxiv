@@ -22,10 +22,10 @@ xws all | while read -r i; do
         (
 
             cd repo/$i
-            for i in *; do
+            for j in *; do
                 mkdir -p ../../csv/c$i
-                for j in $i/*; do
-                    x x-cmd-arxiv-db json2csv $j | ____x_cmd_arxiv_db_json2csv_pipe >> ../../csv/c$i/$j.csv
+                for k in $j/*; do
+                    x x-cmd-arxiv-db json2csv $k | ____x_cmd_arxiv_db_json2csv_pipe >> ../../csv/c$i/$k.csv
                 done
             done
 
