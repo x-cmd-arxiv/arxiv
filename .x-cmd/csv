@@ -32,7 +32,7 @@ xws all | while read -r i; do
         )
         
         (
-            cd csv/$i
+            cd csv/c$i
             git add .
             git commit -m ...
             git push origin main
