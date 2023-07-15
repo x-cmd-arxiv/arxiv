@@ -6,15 +6,17 @@ ____x_cmd_arxiv_db_json2csv_pipe(){
     local in="$1"
     local out="$2"
 
-    printf "%s," id submitter author title comment journal doi report category license abstract version
-    printf "%s\n" updated
-    x jq -r '[
-        .id, .submitter, .authors, .title,
-        .comments, .["journal-ref"], .doi, .["report-no"], .categories, .license,
-        .abstract,
-        (.versions | @text),
-        .["update_date"]
-    ] | @csv' <"$in" >"$out"
+    (
+        printf "%s," id submitter author title comment journal doi report category license abstract version
+        printf "%s\n" updated
+        x jq -r '[
+            .id, .submitter, .authors, .title,
+            .comments, .["journal-ref"], .doi, .["report-no"], .categories, .license,
+            .abstract,
+            (.versions | @text),
+            .["update_date"]
+        ] | @csv' <"$in" 
+    )>"$out"
 }
 
 xws all | while read -r year; do
