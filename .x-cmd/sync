@@ -1,7 +1,7 @@
 (
 
 xws all | while read -r i; do
-    i="j$i"
+    i="$i"
     (
         x gh cl x-cmd-arxiv/$i repo/$i
         cd repo/$i
