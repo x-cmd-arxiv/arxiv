@@ -25,7 +25,6 @@ xws all | while read -r year; do
         x gh cl x-cmd-arxiv/c$year     csv/c$year
 
         (
-
             cd repo/$year
             for month in *; do
                 mkdir -p "../../csv/c$year/$month"
