@@ -7,8 +7,8 @@ ____x_cmd_arxiv_db_json2csv_pipe(){
     local out="$2"
 
     (
-        printf "%s," id submitter author title comment journal doi report category license abstract version
-        printf "%s\n" updated
+        # printf "%s," id submitter author title comment journal doi report category license abstract version
+        # printf "%s\n" updated
         x jq -r '[
             .id, .submitter, .authors, .title,
             .comments, .["journal-ref"], .doi, .["report-no"], .categories, .license,
@@ -21,23 +21,23 @@ ____x_cmd_arxiv_db_json2csv_pipe(){
 
 xws all | while read -r year; do
     (
-        x gh cl x-cmd-arxiv/$year      repo/$year
-        x gh cl x-cmd-arxiv/c$year     csv/c$year
+        x gh cl x-cmd-arxiv/j$year      repo/j$year
+        x gh cl x-cmd-arxiv/$year       csv/$year
 
         (
-            cd repo/$year
+            cd repo/j$year
             for month in *; do
-                mkdir -p "../../csv/c$year/$month"
+                mkdir -p "../../csv/$year/$month"
                 for md in "$month"/*; do
                     # ____x_cmd_arxiv_db_json2csv_pipe >> ../../csv/c$year/$md.csv
-                    ____x_cmd_arxiv_db_json2csv_pipe "$md" "../../csv/c$year/$md.csv"
+                    ____x_cmd_arxiv_db_json2csv_pipe "$md" "../../csv/$year/$md.csv"
                 done
             done
 
         )
         
         (
-            cd csv/c$year
+            cd csv/$year
             git add .
             git commit -m ...
             git push origin main
